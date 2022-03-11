@@ -1,0 +1,83 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<div class="container">
+    <div class="row">
+<form>
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="name" class="form-control" id="name" aria-describedby="name" placeholder="name">
+    </div>
+    <div class="form-group">
+        <label for="location">Location</label>
+        <input type="location" class="form-control" id="location" aria-describedby="location" placeholder="location">
+    </div>
+    <div class="form-group">
+        <label for="location">City name</label>
+        <input type="cityName" class="form-control" id="cityName" aria-describedby="cityName" placeholder="cityName">
+    </div>
+    <div class="form-group">
+        <label for="streetName">Street Name</label>
+        <input type="streetName" class="form-control" id="streetName" aria-describedby="streetName" placeholder="StreetName">
+    </div>
+    <div class="form-group">
+        <label for="streetNumber">Street Number</label>
+        <input type="streetNumber" class="form-control" id="streetNumber" aria-describedby="streetNumber" placeholder="StreetNumber">
+    </div>
+    <div class="form-group">
+        <label for="minGuests">Minimum Guests</label>
+        <input type="minGuests" class="form-control" id="minGuests" aria-describedby="minGuests" placeholder="minGuests">
+    </div>
+    <div class="form-group">
+        <label for="maxGuests">Minimum Guests</label>
+        <input type="maxGuests" class="form-control" id="maxGuests" aria-describedby="maxGuests" placeholder="maxGuests">
+    </div>
+    <div class="form-group">
+        <label for="mobileInput">Mobile</label>
+        <input type="mobileInput" class="form-control" id="mobileInput" placeholder="Mobile">
+    </div>
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <button  onclick="submitForm();" class="btn btn-primary">Submit</button>
+</form>
+        <script>
+            function submitForm() {
+                let input = {
+                    "name": $('#name').val(),
+                    "location": $('#location').val(),
+                    "cityName": $('#cityName').val(),
+                    "streetName": $('#streetName').val(),
+                    "streetNumber": $('#streetNumber').val(),
+                    "minGuests": $('#minGuests').val(),
+                    "maxGuests": $('#maxGuests').val(),
+                    "contactInfo": {"mobilePhone": $('#mobileInput').val(), "emailAddress": $('#email').val()}
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/caterer/v1/create",
+                    data:  JSON.stringify(input),
+                    dataType:"json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    crossDomain: true,
+                    success: function (response) {
+                        //if request if made successfully then the response represent the data
+                        console.log(response);
+                    }
+                });
+            }
+
+        </script>
+</div>
+</div>
+</html>

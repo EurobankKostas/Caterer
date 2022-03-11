@@ -1,0 +1,85 @@
+
+<html>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+
+
+<table id="table_id" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>itemId</th>
+        <th>name</th>
+        <th>location</th>
+        <th>cityName</th>
+        <th>streetName</th>
+        <th>streetNumber</th>
+        <th>minGuests</th>
+        <th>maxGuests</th>
+        <th>mobilePhone</th>
+        <th>emailAddress</th>
+    </tr>
+    </thead>
+
+</table>
+<script>
+    $(document).ready(function() {
+
+        $('#table_id').DataTable({
+            'serverSide': true,
+            'rowId': "_id",
+            'ajax': {
+                'contentType': 'application/json',
+                'url': 'http://localhost:8080/caterer/v1/find',
+                'type': 'GET',
+                'crossDomain': true,
+                'data': flatten
+            }
+            ,
+            columns: [
+                { data: 'itemId' },
+                { data: 'name' },
+                { data: 'location' },
+                { data: 'cityName' },
+                { data: 'streetName' },
+                { data: 'streetNumber' },
+                { data: 'minGuests' },
+                { data: 'maxGuests' },
+                { data: 'contactInfo.mobilePhone' },
+                { data: 'contactInfo.emailAddress' }
+
+            ]
+        });
+
+        function flatten(params) {
+            params.columns.forEach(function (column, index) {
+                params['columns[' + index + '].data'] = column.data;
+                params['columns[' + index + '].name'] = column.name;
+                params['columns[' + index + '].searchable'] = column.searchable;
+                params['columns[' + index + '].orderable'] = column.orderable;
+                params['columns[' + index + '].search.regex'] = column.search.regex;
+                params['columns[' + index + '].search.value'] = column.search.value;
+            });
+            delete params.columns;
+
+            params.order.forEach(function (order, index) {
+                params['order[' + index + '].column'] = order.column;
+                params['order[' + index + '].dir'] = order.dir;
+            });
+            delete params.order;
+
+            params['search.regex'] = params.search.regex;
+            params['search.value'] = params.search.value;
+            delete params.search;
+
+            return params;
+        }
+
+    } );
+
+
+</script>
+
+</html>
